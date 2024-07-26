@@ -1,8 +1,11 @@
 package dev.gether.getgrouptp;
 
 import dev.gether.getconfig.selector.SelectorAddon;
+import dev.gether.getgrouptp.bstats.Metrics;
 import dev.gether.getgrouptp.cmd.GroupTPCommand;
 import dev.gether.getgrouptp.cmd.RandomTPCommand;
+import dev.gether.getgrouptp.cmd.handler.InvalidUsageCommandHandler;
+import dev.gether.getgrouptp.cmd.handler.PermissionHandler;
 import dev.gether.getgrouptp.core.TeleportManager;
 import dev.gether.getgrouptp.file.FileManager;
 import dev.gether.getgrouptp.listener.PlayerInteractListener;
@@ -36,6 +39,7 @@ public final class GetGroupTP extends JavaPlugin {
         // register cmd
         registerCommand();
 
+        Metrics metrics = new Metrics(this, 22789);
     }
 
     @Override
@@ -57,6 +61,8 @@ public final class GetGroupTP extends JavaPlugin {
                         new GroupTPCommand(selectorAddon, fileManager),
                         new RandomTPCommand(teleportManager)
                 )
+                .invalidUsage(new InvalidUsageCommandHandler(fileManager))
+                .missingPermission(new PermissionHandler(fileManager))
                 //
                 .build();
 

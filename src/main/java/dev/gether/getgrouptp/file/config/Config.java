@@ -14,6 +14,10 @@ import java.util.*;
 @Setter
 public class Config extends GetConfig {
 
+    private String usageCommand  = "&7Usage: #5eff96{usage}";
+    private String noPermission  = "&cNo permission! #5eff96{permission}";
+    private String usageFormat = "&6* &e{scheme}";
+
     private int cooldown = 5;
     private String cooldownMessage = "&cYou must wait {sec} seconds!";
     private String notEnoughMembersMessage = "&cCannot teleport. Required {members-size} member(s)";

@@ -37,14 +37,27 @@ public class GroupTPCommand {
         MessageUtil.sendMessage(commandSender, "&aConfig successfully reloaded!");
     }
 
+    private boolean isValidSelection(Player player) {
+        Optional<SelectorPlayer> selectorPlayerOpt = selectorAddon.getSelectorManager().findSelectorPlayerByUUID(player.getUniqueId());
+        return selectorPlayerOpt.isPresent()
+                && selectorPlayerOpt.get().getFirstLocation() != null
+                && selectorPlayerOpt.get().getSecondLocation() != null;
+    }
+
     @Execute(name = "create")
     private void createGroupTP(@Context Player player, @Arg("name") String name, @Arg("amount") int amount) {
-        Optional<SelectorPlayer> selectorPlayerOpt = selectorAddon.getSelectorManager().findSelectorPlayerByUUID(player.getUniqueId());
-        if (selectorPlayerOpt.isEmpty()) {
+        if (!isValidSelection(player)) {
             MessageUtil.sendMessage(player, "&cYou must select both locations!");
             return;
         }
+        Optional<SelectorPlayer> selectorPlayerOpt = selectorAddon.getSelectorManager().findSelectorPlayerByUUID(player.getUniqueId());
+        if(selectorPlayerOpt.isEmpty()) return;
 
+        Optional<GroupTeleport> first = fileManager.getConfig().getTeleports().stream().filter(groupTeleport -> groupTeleport.getKey().equalsIgnoreCase(name)).findFirst();
+        if(first.isPresent()) {
+            MessageUtil.sendMessage(player, "&cThis name is already in use!");
+            return;
+        }
         SelectorPlayer selectorPlayer = selectorPlayerOpt.get();
         GroupTeleport newTeleport = GroupTeleport.builder()
                 .key(name)
