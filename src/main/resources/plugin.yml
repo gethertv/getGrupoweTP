@@ -2,3 +2,4 @@ name: getGroupTP
 version: '${project.version}'
 main: dev.gether.getgrouptp.GetGroupTP
 api-version: '1.16'
+softdepend: [Multiverse-Core]
