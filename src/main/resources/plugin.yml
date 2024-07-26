@@ -1,0 +1,4 @@
+name: getGrupoweTP
+version: '${project.version}'
+main: dev.gether.getgrupowetp.GetGrupoweTP
+api-version: '1.19'
