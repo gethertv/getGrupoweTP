@@ -1,19 +1,19 @@
-package dev.gether.getgrupowetp;
+package dev.gether.getgrouptp;
 
 import dev.gether.getconfig.selector.SelectorAddon;
-import dev.gether.getgrupowetp.cmd.GroupTPCommand;
-import dev.gether.getgrupowetp.cmd.RTPCommand;
-import dev.gether.getgrupowetp.core.TeleportManager;
-import dev.gether.getgrupowetp.file.FileManager;
-import dev.gether.getgrupowetp.listener.PlayerInteractListener;
+import dev.gether.getgrouptp.cmd.GroupTPCommand;
+import dev.gether.getgrouptp.cmd.RandomTPCommand;
+import dev.gether.getgrouptp.core.TeleportManager;
+import dev.gether.getgrouptp.file.FileManager;
+import dev.gether.getgrouptp.listener.PlayerInteractListener;
 import dev.rollczi.litecommands.LiteCommands;
 import dev.rollczi.litecommands.bukkit.LiteBukkitFactory;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class GetGrupoweTP extends JavaPlugin {
+public final class GetGroupTP extends JavaPlugin {
 
-    private static GetGrupoweTP instance;
+    private static GetGroupTP instance;
     private SelectorAddon selectorAddon;
     private LiteCommands liteCommands;
     private FileManager fileManager;
@@ -52,10 +52,10 @@ public final class GetGrupoweTP extends JavaPlugin {
     }
 
     private void registerCommand() {
-        this.liteCommands = LiteBukkitFactory.builder("grupowetp", this)
+        this.liteCommands = LiteBukkitFactory.builder("get", this)
                 .commands(
                         new GroupTPCommand(selectorAddon, fileManager),
-                        new RTPCommand(teleportManager)
+                        new RandomTPCommand(teleportManager)
                 )
                 //
                 .build();

@@ -1,8 +1,8 @@
-package dev.gether.getgrupowetp.core;
+package dev.gether.getgrouptp.core;
 
 import dev.gether.getconfig.utils.MessageUtil;
-import dev.gether.getgrupowetp.core.model.TeleportData;
-import dev.gether.getgrupowetp.file.FileManager;
+import dev.gether.getgrouptp.core.model.TeleportData;
+import dev.gether.getgrouptp.file.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -36,7 +36,7 @@ public class TeleportManager {
             }
         } else {
             for (Player player : players) {
-                MessageUtil.sendMessage(player, fileManager.getConfig().getNotFoundSafeLoc());
+                MessageUtil.sendMessage(player, fileManager.getConfig().getSafeLocationNotFound());
             }
         }
     }
@@ -51,11 +51,11 @@ public class TeleportManager {
             int sec = (int) ((ctime - now) / 1000);
             if (sec > 0) {
                 String cooldownMessage = fileManager.getConfig().getCooldownMessage();
-                MessageUtil.sendMessage(player, cooldownMessage.replace("{sec}", String.valueOf(sec + 1)));
+                MessageUtil.sendMessage(player, cooldownMessage.replace("{sec}", String.valueOf(sec)));
                 return;
             }
         }
-        cooldown.put(player.getUniqueId(), now + fileManager.getConfig().getCooldown());
+        cooldown.put(player.getUniqueId(), now + 1000L * fileManager.getConfig().getCooldown());
         TeleportData teleportData = fileManager.getConfig().getTeleportData().get(world.getName());
         if (teleportData == null) {
             MessageUtil.sendMessage(player, fileManager.getConfig().getCannotUseRandomTP());
@@ -67,7 +67,7 @@ public class TeleportManager {
         if (randomLocation != null) {
             player.teleport(randomLocation);
         } else {
-            MessageUtil.sendMessage(player, fileManager.getConfig().getNotFoundSafeLoc());
+            MessageUtil.sendMessage(player, fileManager.getConfig().getSafeLocationNotFound());
         }
     }
 
@@ -96,8 +96,8 @@ public class TeleportManager {
     private boolean isSafeLocation(Location location) {
         Material blockType = location.getBlock().getType();
         Material belowBlockType = location.clone().subtract(0, 1, 0).getBlock().getType();
-        return !fileManager.getConfig().getDisableMaterial().contains(blockType) &&
-                !fileManager.getConfig().getDisableMaterial().contains(belowBlockType);
+        return !fileManager.getConfig().getDisabledMaterials().contains(blockType) &&
+                !fileManager.getConfig().getDisabledMaterials().contains(belowBlockType);
     }
 
     public void notRequiredMeembers(Player player, int membersAmount) {
@@ -107,7 +107,7 @@ public class TeleportManager {
             return;
         }
         cooldownMessage.put(player.getUniqueId(), now + 500L);
-        String notRequiredMembers = fileManager.getConfig().getNotRequiredMembers();
+        String notRequiredMembers = fileManager.getConfig().getNotEnoughMembersMessage();
         MessageUtil.sendMessage(player, notRequiredMembers.replace("{members-size}", String.valueOf(membersAmount)));
         return;
     }

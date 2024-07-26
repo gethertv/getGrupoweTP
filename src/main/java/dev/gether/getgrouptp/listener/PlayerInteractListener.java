@@ -1,10 +1,8 @@
-package dev.gether.getgrupowetp.listener;
+package dev.gether.getgrouptp.listener;
 
-import dev.gether.getconfig.utils.MessageUtil;
-import dev.gether.getgrupowetp.core.GroupTeleport;
-import dev.gether.getgrupowetp.core.TeleportManager;
-import dev.gether.getgrupowetp.file.FileManager;
-import org.bukkit.Bukkit;
+import dev.gether.getgrouptp.core.GroupTeleport;
+import dev.gether.getgrouptp.core.TeleportManager;
+import dev.gether.getgrouptp.file.FileManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -13,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class PlayerInteractListener implements Listener {
@@ -34,6 +31,13 @@ public class PlayerInteractListener implements Listener {
             return;
 
         Location location = clickedBlock.getLocation();
+
+        Optional<Location> rtpOptional = fileManager.getConfig().getRtpLocations().stream().filter(loc -> loc.equals(location)).findFirst();
+        if(rtpOptional.isPresent()) {
+            teleportManager.randomTeleport(player, player.getWorld());
+            return;
+        }
+
         Optional<GroupTeleport> teleportOpt = fileManager.getConfig().getTeleports().stream().filter(groupTeleport -> {
             Optional<Location> first = groupTeleport.getButtons().stream().filter(loc -> loc.equals(location)).findFirst();
             return first.isPresent();

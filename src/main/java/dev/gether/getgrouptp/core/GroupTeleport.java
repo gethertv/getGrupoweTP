@@ -1,4 +1,4 @@
-package dev.gether.getgrupowetp.core;
+package dev.gether.getgrouptp.core;
 
 import dev.gether.getconfig.domain.Cuboid;
 import lombok.*;

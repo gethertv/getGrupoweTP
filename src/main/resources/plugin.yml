@@ -1,4 +1,4 @@
-name: getGrupoweTP
+name: getGroupTP
 version: '${project.version}'
-main: dev.gether.getgrupowetp.GetGrupoweTP
+main: dev.gether.getgrouptp.GetGroupTP
 api-version: '1.16'

@@ -1,4 +1,4 @@
-package dev.gether.getgrupowetp.core.model;
+package dev.gether.getgrouptp.core.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
